@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>thymeleaf模板</title>
+</head>
+<script th:src="@{/static/js/jquery-1.12.3.min.js}" type="text/javascript"></script>
+<body>
+<script type="text/javascript">
+    if (typeof jQuery != 'undefined') {
+        alert("jquery已经被加载");
+    }
+
+</script>
+thymeleaf
+<p th:text="'Hello！, ' + ${name} + '!'" >3333</p>
+<span th:text="|Welcome to our application, ${name}!|"/>
+<img alt="" src="/static/images/tt.jpg"/>
+</body>
+</html>

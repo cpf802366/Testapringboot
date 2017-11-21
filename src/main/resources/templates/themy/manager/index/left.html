@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:shiro="http://xmlns.jcp.org/xml/ns/javaee">
+
+<head>
+
+</head>
+<div th:fragment="left">
+
+	<script type="text/javascript" th:inline="javascript">
+
+
+
+		$(function () {
+
+
+		})
+
+		function test(obj,obj1 ,obj2) {
+			alert('123'+obj);
+		}
+
+
+
+	</script>
+
+	    <!-- 左侧菜单栏-->
+				   <div class="sidebar" id="sidebar">
+					<script type="text/javascript">
+						try{ace.settings.check('sidebar' , 'fixed')}catch(e){}
+					</script>
+					<!-- 左侧上四个按钮-->
+					     	<div class="sidebar-shortcuts" id="sidebar-shortcuts">
+							    <div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
+								    <button class="btn btn-success">
+								        <i class="icon-signal"></i>
+							        </button>
+									<button class="btn btn-info">
+										<i class="icon-pencil"></i>
+									</button>
+
+									<button class="btn btn-warning">
+										<i class="icon-group"></i>
+									</button>
+
+									<button class="btn btn-danger">
+										<i class="icon-cogs"></i>
+									</button> 
+								 </div>
+			           
+						    </div><!-- #sidebar-shortcuts -->
+							<!-- 缩小版四个按钮-->
+							<div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
+									<span class="btn btn-success"></span>
+
+									<span class="btn btn-info"></span>
+
+									<span class="btn btn-warning"></span>
+
+									<span class="btn btn-danger"></span>
+							</div>
+							<!-- 左侧中间菜单 -->
+							<ul class="nav nav-list">
+							 <li class="active">
+							      <a href="index.html">
+								  <i class="icon-dashboard"></i>
+								 <span class="menu-text"> 控制台 </span>
+							      </a>
+						     </li>
+							 <li>
+							      <a href="javascript:void(0);" onclick="siMenu('1','2','文字排版','/tab')">
+								<!--  <i class="icon-text-width"></i>-->
+								  <span class="menu-text"> 文字排版 </span>
+							      </a>
+						     </li>
+								<li th:each="per :${session.sessionMODULE}" th:if="${per.zid == '-1'}">
+									<a  href="#" class="dropdown-toggle">
+										<i class="icon-desktop"></i>
+										<span class="menu-text" th:text="${per.mname}"> </span>
+										<b class="arrow icon-angle-down"></b>
+									</a>
+									<ul class="submenu"  >
+										<li th:each="zper :${session.sessionMODULE}" th:if="${per.zid == '0'}" th:if="${zper.zid ==  per.mid}"  >
+											<a href="javascript:void(0);"    th:onclick="'javascript:siMenu(\''+${zper.zid}+'\' , \''+${per.zid}+'\' , \''+${zper.mname}+'\' , \''+${zper.murl}+'\');'">
+											 <!--th:onclick="'javascript:siMenu(\''+${zper.zid}+'\',\''+${per.zid}+'\',\''+${zper.mname}+'\','/tab')'" -->
+												<i class="icon-double-angle-right  icon-desktop"></i>
+												<span class="menu-text" th:text="${zper.mname}"> </span>
+											</a>
+										</li>
+									</ul>
+								</li>
+
+
+							
+							</ul><!-- /.nav-list -->
+						<!--收缩左侧菜单列表 -->	
+					<div class="sidebar-collapse" id="sidebar-collapse">
+						<i class="icon-double-angle-left" data-icon1="icon-double-angle-left" data-icon2="icon-double-angle-right"></i>
+					</div>
+							
+							
+			        </div><!-- #sidebar -->
+
+	</div>
+
+</html>

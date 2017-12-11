@@ -18,13 +18,12 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @ComponentScan(basePackages="com.cpf.boottest")  //默认扫描是当前包下的路径
 @EnableAutoConfiguration
 public class TestapringbootApplication  /*extends SpringBootServletInitializer*/ {
-	/*@Override
-	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+//	@Override
+//	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+//		return builder.sources(TestapringbootApplication.class);
+//	}
 
-		return builder.sources(TestapringbootApplication.class);
-	}*/
-
-	public static void main(String[] args) {
+	 public static void main(String[] args) {
 		SpringApplication.run(TestapringbootApplication.class, args);
 	}
 }

@@ -26,13 +26,14 @@ import java.util.Map;
  * Created by cpf on 2017/11/19.
  */
 @Controller
-@RequestMapping(value = "/manager")
+@RequestMapping(value = "manager")
 public class ManagerController extends BaseController {
     @Autowired
     private UserReService userReService;
     @Autowired
     private RoleService roleService;
 
+    //user
     @RequestMapping(value = "/user/list", method = {RequestMethod.POST,
             RequestMethod.GET})
     public ModelAndView userlist(HttpServletRequest request, UserEntity user)
@@ -45,31 +46,36 @@ public class ManagerController extends BaseController {
         mv.setViewName("/manager/user/list");
         return mv;
     }
-     @RequestMapping(value = "/role/list", method = {RequestMethod.POST,
-                 RequestMethod.GET})
 
-         public ModelAndView rolelist(HttpServletRequest request)
-                 throws Exception {
-             ModelAndView mv = new ModelAndView();
+    @RequestMapping(value = "/role/list", method = {RequestMethod.POST,
+            RequestMethod.GET})
 
-             mv.setViewName("/manager/role/list");
-             return mv;
-         }
+    public ModelAndView rolelist(HttpServletRequest request)
+            throws Exception {
+        ModelAndView mv = new ModelAndView();
 
-    @RequestMapping(value = "/role/treelist", method = {RequestMethod.POST,
-                RequestMethod.GET})
-        public
-        @ResponseBody
-        void roletreelist(HttpServletRequest request, HttpServletResponse response, RoleEntity roleEntity) {
+        mv.setViewName("/manager/role/list");
+        return mv;
+    }
 
-        String tree = roleService.getTree(roleEntity);
-        try {
-            responseText(tree,response);
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("cuoeullllllll");
-        }
+    @RequestMapping(value = "/module/list", method = {RequestMethod.POST,
+            RequestMethod.GET})
+    public ModelAndView funlist(HttpServletRequest request)
+            throws Exception {
+        ModelAndView mv = new ModelAndView();
+        mv.addObject("zsg", "true");
+        mv.setViewName("/manager/module/list");
+        return mv;
+    }
 
+    @RequestMapping(value = "/sbbj/one", method = {RequestMethod.POST,
+            RequestMethod.GET})
+    public ModelAndView a(HttpServletRequest request)
+            throws Exception {
+        ModelAndView mv = new ModelAndView();
+
+        mv.setViewName("sbbj/sbbj");
+        return mv;
     }
 
 

@@ -45,17 +45,18 @@ public class URLPermissionsFilter extends PermissionsAuthorizationFilter {
 		if(permissionlist == null){
             permissionlist = userReService.findPermissionlist(username);
         }
-
+           String servername =request.getServletContext().getContextPath();
 		Set<String> perurls = new HashSet<String>();
 		for (ModuleEntity module:permissionlist) {
-			perurls.add(module.getMurl());
+			perurls.add( servername+"/"+module.getMurl());
 		}
    for(String str: perurls){
 	   System.out.println("url==="+str);
    }
             System.out.println("curUrl=="+curUrl);
-		/*return perurls.contains(curUrl);*/
-		return true;
+		System.out.println(perurls.contains(curUrl));
+		 return perurls.contains(curUrl);
+//		return true;
 	}
 	
 	/**

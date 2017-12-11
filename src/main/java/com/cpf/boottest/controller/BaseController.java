@@ -19,6 +19,9 @@ public class BaseController {
    public  Integer  page   ;
     public  Integer size;
     protected Logger logger = Logger.getLogger(this.getClass());
+
+
+
     /**得到ModelAndView
      * @return
      */

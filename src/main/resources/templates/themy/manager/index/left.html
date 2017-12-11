@@ -16,9 +16,7 @@
 
 		})
 
-		function test(obj,obj1 ,obj2) {
-			alert('123'+obj);
-		}
+
 
 
 
@@ -64,7 +62,7 @@
 							 <li class="active">
 							      <a href="index.html">
 								  <i class="icon-dashboard"></i>
-								 <span class="menu-text"> 控制台 </span>
+								 <span class="menu-text"> 控制台  </span>
 							      </a>
 						     </li>
 							 <li>
@@ -81,7 +79,7 @@
 									</a>
 									<ul class="submenu"  >
 										<li th:each="zper :${session.sessionMODULE}" th:if="${per.zid == '0'}" th:if="${zper.zid ==  per.mid}"  >
-											<a href="javascript:void(0);"    th:onclick="'javascript:siMenu(\''+${zper.zid}+'\' , \''+${per.zid}+'\' , \''+${zper.mname}+'\' , \''+${zper.murl}+'\');'">
+											<a href="javascript:void(0);"    th:onclick="'javascript:siMenu(\''+${zper.mid}+'\' , \''+${zper.zid}+'\' , \''+${zper.mname}+'\' , \''+${zper.murl}+'\');'">
 											 <!--th:onclick="'javascript:siMenu(\''+${zper.zid}+'\',\''+${per.zid}+'\',\''+${zper.mname}+'\','/tab')'" -->
 												<i class="icon-double-angle-right  icon-desktop"></i>
 												<span class="menu-text" th:text="${zper.mname}"> </span>

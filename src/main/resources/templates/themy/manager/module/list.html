@@ -35,18 +35,19 @@
     var pid = -1;
     $(document).ready(function (e) {
         initdepartmentTree(pid);
+
     });
     /*<![CDATA[*/
     var basepath = /*[[${#httpServletRequest.getContextPath()}]]*/ 123
 
     /*]]>*/
-
     //初始化树
     function initdepartmentTree(pid) {
+
         var setting = {
             async: {
                 enable: true, // 设置 zTree是否开启异步加载模式
-                url:basepath+"/role/treelist", // Ajax 获取数据的 URL 地址
+                url: basepath + "/module/treelist", // Ajax 获取数据的 URL 地址
                 autoParam: ["id"],    // 异步加载时自动提交父节点属性的参数,假设父节点 node = {id:1, name:"test"}，异步加载时，提交参数 zId=1
                 otherParam: {"id": pid}
             },
@@ -67,6 +68,7 @@
                     enable: true
                 }
             },
+
             // 回调函数
             callback: {
                 beforeDrag: beforeDrag,
@@ -76,18 +78,91 @@
                 onRemove: onRemove,
                 onRename: onRename,
                 onClick: zTreeOnClick,
-                onAsyncSuccess: zTreeOnAsyncSuccess
+                onAsyncSuccess: zTreeOnAsyncSuccess,
+                onCheck: zTreeOnCheck
             }
         };
+        var rolesetting = {
+            async: {
+                enable: true, // 设置 zTree是否开启异步加载模式
+                url: basepath + "/module/treelist", // Ajax 获取数据的 URL 地址
+                autoParam: ["id"],    // 异步加载时自动提交父节点属性的参数,假设父节点 node = {id:1, name:"test"}，异步加载时，提交参数 zId=1
+                otherParam: {"id": pid}
+            },
+
+            data: { // 必须使用data
+                keep: {
+                    parent: true
+                },
+                simpleData: {
+                    enable: true
+                }
+            },
+            check: {                       //选中的设置
+                autoCheckTrigger: true,
+                chkboxType: {"Y": "ps", "N": "ps"},
+                enable: true,
+                chkStyle: "checkbox",    //也可以设置radio（单选）
+
+
+            },
+            // 回调函数
+            callback: {
+                beforeDrag: beforeDrag,
+                beforeEditName: beforeEditName,
+                beforeRemove: beforeRemove,
+                beforeRename: beforeRename,
+                onRemove: onRemove,
+                onRename: onRename,
+                onClick: zTreeOnClick,
+                onAsyncSuccess: zTreeOnAsyncSuccess,
+                onCheck: zTreeOnCheck
+            }
+        };
+
+        function zTreeOnCheck(event, treeId, treeNode) {
+           /* alert(treeNode.id + ", " + treeNode.name + "," + treeNode.checked);*/
+            /*<![CDATA[*/
+            var rid = /*[[${#httpServletRequest.getAttribute('rid')}]]*/ null
+            /*]]>*/
+
+            if(rid != null){
+
+                $.post(basepath + "/role/addmodule", {mid: treeNode.id,rid:rid}, function (data) {
+                });
+
+            }
+
+        };
+
         function zTreeOnAsyncSuccess(event, treeId, treeNode, msg) {
             var treeObj = $.fn.zTree.getZTreeObj(treeId);
             var flag = treeObj.expandAll(true);
-
-
+            /*<![CDATA[*/
+            var mids = /*[[${#httpServletRequest.getAttribute('mids')}]]*/ null
+            /*]]>*/
+            if (mids != null) {
+                for (var i in mids) {
+                    var node = treeObj.getNodeByParam("id", mids[i]);
+                    node.checked = true
+                    treeObj.updateNode(node);
+                }
+            }
         };
 
         $(document).ready(function () {
-            $.fn.zTree.init($("#roletree"), setting);
+            /*<![CDATA[*/
+            var zsg = /*[[${#httpServletRequest.getAttribute('zsg')}]]*/ null
+            /*]]>*/
+            if(zsg == 'true'){
+                //有增删改
+                $.fn.zTree.init($("#moduletree"), setting);
+            }else{
+                $.fn.zTree.init($("#moduletree"), rolesetting);
+            }
+
+
+
         });
     }
     var log, className = "dark";
@@ -97,7 +172,7 @@
     function beforeEditName(treeId, treeNode) {
         className = (className === "dark" ? "" : "dark");
         showLog("[ " + getTime() + " beforeEditName ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name);
-        var zTree = $.fn.zTree.getZTreeObj("roletree");
+        var zTree = $.fn.zTree.getZTreeObj("moduletree");
         zTree.selectNode(treeNode);
         setTimeout(function () {
             if (confirm("进入节点 -- " + treeNode.name + " 的编辑状态吗？")) {
@@ -111,12 +186,12 @@
     function beforeRemove(treeId, treeNode) {
         className = (className === "dark" ? "" : "dark");
         showLog("[ " + getTime() + " beforeRemove ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name);
-        var zTree = $.fn.zTree.getZTreeObj("roletree");
+        var zTree = $.fn.zTree.getZTreeObj("moduletree");
         zTree.selectNode(treeNode);
         return confirm("确认删除 节点 -- " + treeNode.name + " 吗？");
     }
     function onRemove(e, treeId, treeNode) {
-        $.post( basepath+"/role/delrole", {rid: treeNode.id}, function (data) {
+        $.post(basepath + "/module/delmodule", {mid: treeNode.id}, function (data) {
         });
         showLog("[ " + getTime() + " onRemove ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name);
     }
@@ -125,7 +200,7 @@
         showLog((isCancel ? "<span style='color:red'>" : "") + "[ " + getTime() + " beforeRename ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name + (isCancel ? "</span>" : ""));
         if (newName.length == 0) {
             setTimeout(function () {
-                var zTree = $.fn.zTree.getZTreeObj("roletree");
+                var zTree = $.fn.zTree.getZTreeObj("moduletree");
                 zTree.cancelEditName();
                 alert("节点名称不能为空.");
             }, 0);
@@ -134,10 +209,10 @@
         return true;
     }
     function onRename(e, treeId, treeNode, isCancel) {
-        $.post( basepath+"/role/saveroel", {
-            rid: treeNode.id,
+        $.post(basepath + "/module/savemodule", {
+            mid: treeNode.id,
             zid: treeNode.pId,
-            rname: treeNode.name
+            mname: treeNode.name
         }, function (data) {
         })
         // showLog((isCancel ? "<span style='color:red'>":"") + "[ "+getTime()+" onRename ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name + (isCancel ? "</span>":""));
@@ -169,7 +244,7 @@
         sObj.after(addStr);
         var btn = $("#addBtn_" + treeNode.tId);
         if (btn) btn.bind("click", function () {
-            var zTree = $.fn.zTree.getZTreeObj("roletree");
+            var zTree = $.fn.zTree.getZTreeObj("moduletree");
             setName(zTree, treeNode);
 
 
@@ -183,7 +258,7 @@
     }
     ;
     function selectAll() {
-        var zTree = $.fn.zTree.getZTreeObj("roletree");
+        var zTree = $.fn.zTree.getZTreeObj("moduletree");
         zTree.setting.edit.editNameSelectAll = $("#selectAll").attr("checked");
     }
 
@@ -197,7 +272,7 @@
                     setName(zTree, treeNode);
                 } else {
                     zTree.addNodes(treeNode, {id: (100 + newCount), pId: treeNode.id, name: data});
-                    $.post(basepath+"/role/saveroel", {zid: treeNode.id, rname: data}, function (data) {
+                    $.post(basepath + "/module/savemodule", {zid: treeNode.id, mname: data}, function (data) {
                     });
                 }
 
@@ -209,28 +284,23 @@
     }
     function zTreeOnClick(event, treeId, treeNode) {
 
-         $("#rightmodule").load(basepath+"/role/modulebyrid?rid="+treeNode.id);
-
+      /*  $("#editurl").load(  basepath + "/module/editurl.html?mid=" + treeNode.id);*/
+        $("#editurl").load(basepath+'/editurl?mid'+treeNode.id);
     }
 
 
 </script>
-<body class="no-skin" style="width:98%;height:100%;  ">
+<body class="no-skin" style="width:98%;height:98%;  ">
 <div id="tab_menu"></div>
 <div class="main-container" id="main-container">
 
-    <div style="width: 300px; height: 100%; float: left;  ">
-        <ul id="roletree" class="ztree" style="width:260px; overflow:auto;"></ul>
+    <div style="width: 300px; height: 100%; float: left; ">
+        <ul id="moduletree" class="ztree" style="width:260px; overflow:auto;"></ul>
     </div>
 
-
 </div>
-<div id="rightmodule" style="width: 300px; height: 100px; float: left;    margin-left:50px">
-
-</div>
+<div id="editurl" style="width: 300px; height: 100px; float: left;    margin-left:50px"></div>
 <!-- /.main-content -->
-
-
 
 
 </body>

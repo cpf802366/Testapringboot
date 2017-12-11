@@ -104,6 +104,15 @@ public class LoginController {
         return ma;
     }
 
+    @RequestMapping(value = "/tab", method = {RequestMethod.POST,
+                RequestMethod.GET})
+        public ModelAndView tab(HttpServletRequest request)
+                throws Exception {
+            ModelAndView mv = new ModelAndView();
+
+            mv.setViewName("/manager/index/tab");
+            return mv;
+        }
 
     @RequestMapping(value = "/manager/test", method = RequestMethod.GET)
     public ModelAndView test() {

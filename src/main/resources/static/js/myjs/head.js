@@ -11,22 +11,6 @@ var websocket;			//websocket对象
 var wimadress="";		//即时聊天服务器IP和端口
 var oladress="";		//在线管理和站内信服务器IP和端口
 
-function siMenu(id,fid,MENU_NAME,MENU_URL){
-	if(id != mid){
-		$("#"+mid).removeClass();
-		mid = id;
-	}
-	if(fid != fmid){
-		$("#"+fmid).removeClass();
-		fmid = fid;
-	}
-	$("#"+fid).attr("class","active open");
-	$("#"+id).attr("class","active");
-	top.mainFrame.tabAddHandler(id,MENU_NAME,MENU_URL);
-	/*if(MENU_URL != "druid/index.html"){
-		jzts();
-	}*/
-}
 function tabAddHandler(mid,mtitle,murl){
 	tab.update({
 		id :mid,
@@ -43,5 +27,26 @@ function tabAddHandler(mid,mtitle,murl){
 
 	tab.activate(mid);
 }
+function siMenu(id,fid,MENU_NAME,MENU_URL){
+	if(id != mid){
+		$("#"+mid).removeClass();
+		mid = id;
+	}
+	if(fid != fmid){
+		$("#"+fmid).removeClass();
+		fmid = fid;
+	}
+	$("#"+fid).attr("class","active open");
+	$("#"+id).attr("class","active");
+	top.mainFrame.tabAddHandler(id,MENU_NAME,MENU_URL);
+
+	/* if(MENU_URL != "druid/index.html"){
+		jzts();
+	} */
+
+
+}
+
+
 
 

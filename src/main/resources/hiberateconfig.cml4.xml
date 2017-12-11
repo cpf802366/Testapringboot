@@ -4,12 +4,15 @@
     "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
   <session-factory>
-    <property name="connection.url">jdbc:mysql://localhost:3306/springbootdate</property>
+    <property name="connection.url">jdbc:mysql://127.0.0.1:3306/springbootdate</property>
     <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
     <mapping class="com.cpf.boottest.pojo.ModuleEntity"/>
 
     <mapping class="com.cpf.boottest.pojo.RoleEntity"/>
     <mapping class="com.cpf.boottest.pojo.UserEntity"/>
+    <mapping class="com.cpf.boottest.pojo.SbbjEntity"/>
+    <mapping class="com.cpf.boottest.pojo.StudentinfoEntity"/>
+    <mapping class="com.cpf.boottest.pojo.SxjxxEntity"/>
 
     <!-- DB schema will be updated if needed -->
     <!-- <property name="hbm2ddl.auto">update</property> -->

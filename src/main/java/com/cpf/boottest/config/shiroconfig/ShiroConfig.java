@@ -70,7 +70,7 @@ public class ShiroConfig {
 		chains.put("/login/**", "anon");
 	/*	chains.put("/logout", "logout");*/
 		//后台管理
-		/*chains.put("/manager*//**", "authc,perms");*/
+	 chains.put("/**/manager/**", "authc,perms");
 		//前台管理
 
 		bean.setFilterChainDefinitionMap(chains);

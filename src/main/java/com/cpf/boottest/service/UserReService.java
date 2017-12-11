@@ -14,9 +14,12 @@ import java.util.Set;
 public interface UserReService {
     Page<UserEntity> findUserCriteria(Integer page, Integer size, UserEntity userquery);
 
-    UserEntity findByUsernameAndPassword(String username ,String password);
-    List<RoleEntity> findRolelist (String username);
-       List<ModuleEntity> findPermissionlist(String username) ;
+    UserEntity findByUsernameAndPassword(String username, String password);
+
+    List<RoleEntity> findRolelist(String username);
+
+    List<ModuleEntity> findPermissionlist(String username);
+    List<UserEntity> listusers();
 
 
 }

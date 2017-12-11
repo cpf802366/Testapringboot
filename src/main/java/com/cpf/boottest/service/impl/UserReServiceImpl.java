@@ -92,5 +92,10 @@ public class UserReServiceImpl implements UserReService {
         return byMidIn;
     }
 
+    @Override
+    public List<UserEntity> listusers() {
+        return userRepository.findAll();
+    }
+
 
 }
